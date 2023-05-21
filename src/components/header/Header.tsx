@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { Search, PenBox, UserCircle2 } from "lucide-react";
 
-import { Container } from "../layout/Container";
 import { SearchBar } from "./SearchBar";
 import { NavLink } from "../ui/NavLink";
 import { Dropdown } from "../ui/Dropdown";
@@ -9,7 +8,7 @@ import { Dropdown } from "../ui/Dropdown";
 interface HeaderProps {}
 
 export const Header = ({}: HeaderProps) => {
-  const isLogged = true;
+  const isLogged = false;
 
   return (
     <header className="border-b border-neutral-500">
