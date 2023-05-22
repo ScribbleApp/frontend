@@ -24,6 +24,7 @@ export const SignIn = ({}: SignInProps) => {
     onSuccess: (data) => {
       updateIsLoggedIn(true);
       updateToken(data.token);
+      localStorage.setItem("jwt", data.token);
     },
   });
 

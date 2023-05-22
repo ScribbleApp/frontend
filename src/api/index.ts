@@ -2,6 +2,7 @@ import axios from "axios";
 import { SignupFormData } from "../types/SignupFormData";
 import { SigninFormData } from "../types/SigninFormData";
 import { TPost } from "../types/TPost";
+import { TUser } from "../types/TUser";
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
@@ -23,9 +24,30 @@ export const signIn = async (payload: SigninFormData) => {
   };
 };
 
-// export const getCurrentUser = async () => {
-//   const {} = await api.get
-// }
+export const signOut = async () => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.delete("/logout", {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+
+  localStorage.clear();
+  return data;
+};
+
+export const getCurrentUser = async () => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    const { data } = await api.get("/current_user", {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+
+    return data as TUser;
+  } else return {};
+};
 
 export const getAllPosts = async () => {
   const { data } = await api.get("/posts");

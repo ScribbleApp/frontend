@@ -7,6 +7,7 @@ interface HomeProps {}
 
 export const Home = ({}: HomeProps) => {
   const { data, isLoading } = useQuery({
+    queryKey: ["posts"],
     queryFn: async () => await getAllPosts(),
   });
 

@@ -1,6 +1,13 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
+import { Button } from "./Button";
+
+import { useMutation } from "@tanstack/react-query";
+import { signOut } from "../../api";
+
+import { UserContext } from "../../context/userContext";
+import { useContext } from "react";
 
 interface DropdownProps {
   icon?: ReactNode;
@@ -8,6 +15,15 @@ interface DropdownProps {
 }
 
 export const Dropdown = ({ icon, title }: DropdownProps) => {
+  const { updateIsLoggedIn } = useContext(UserContext);
+  const { isLoading, mutate } = useMutation({
+    mutationFn: async () => await signOut(),
+    onSuccess(data) {
+      console.log(data);
+      updateIsLoggedIn(false);
+    },
+  });
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -22,10 +38,15 @@ export const Dropdown = ({ icon, title }: DropdownProps) => {
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content className="m-2 w-64 border border-neutral-500 bg-white p-2">
-          <DropdownMenu.Item className="border-b border-neutral-500 pb-1">
-            item
+          <DropdownMenu.Item asChild className="outline-none">
+            <Button
+              intent={"secondary"}
+              padding={"none"}
+              onClick={() => mutate()}
+            >
+              sign out
+            </Button>
           </DropdownMenu.Item>
-          <DropdownMenu.Item>item</DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>

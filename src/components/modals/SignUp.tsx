@@ -20,6 +20,11 @@ export const SignUp = ({}: SignUpProps) => {
 
   const { mutateAsync, data } = useMutation({
     mutationFn: async (payload: SignupFormData) => await signUp(payload),
+    onSuccess: (data) => {
+      updateToken(data?.token);
+      updateIsLoggedIn(true);
+      localStorage.setItem("jwt", data.token);
+    },
   });
 
   console.log(data);
@@ -33,8 +38,6 @@ export const SignUp = ({}: SignUpProps) => {
 
   const onSubmitHandler: SubmitHandler<SignupFormData> = async (formData) => {
     await mutateAsync(formData);
-    updateToken(data?.token);
-    updateIsLoggedIn(true);
   };
 
   return (
