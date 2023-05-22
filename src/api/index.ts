@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SignupFormData } from "../types/SignupFormData";
 import { SigninFormData } from "../types/SigninFormData";
+import { TPost } from "../types/TPost";
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
@@ -25,3 +26,8 @@ export const signIn = async (payload: SigninFormData) => {
 // export const getCurrentUser = async () => {
 //   const {} = await api.get
 // }
+
+export const getAllPosts = async () => {
+  const { data } = await api.get("/posts");
+  return data as TPost[];
+};
