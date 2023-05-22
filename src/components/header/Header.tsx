@@ -5,13 +5,19 @@ import { SearchBar } from "./SearchBar";
 import { NavLink } from "../ui/NavLink";
 import { Dropdown } from "../ui/Dropdown";
 
+import { SignUp } from "../modals/SignUp";
+import { SignIn } from "../modals/SignIn";
+
+import { UserContext } from "../../context/userContext";
+import { useContext } from "react";
+
 interface HeaderProps {}
 
 export const Header = ({}: HeaderProps) => {
-  const isLogged = false;
+  const { isLoggedIn } = useContext(UserContext);
 
   return (
-    <header className="border-b border-neutral-500">
+    <header className="mb-20 border-b border-neutral-500">
       <div className="flex h-16 items-center justify-between px-5">
         <div className="flex items-center space-x-10">
           <Link to={"/"} className="text-xl font-extrabold">
@@ -22,12 +28,10 @@ export const Header = ({}: HeaderProps) => {
             icon={<Search size={20} className="text-neutral-500" />}
           />
         </div>
-        {!isLogged ? (
+        {!isLoggedIn ? (
           <nav className="flex items-center space-x-10">
-            <NavLink to={"/"} intent={"secondary"} padding={"none"}>
-              sign in
-            </NavLink>
-            <NavLink to={"/"}>sign up</NavLink>
+            <SignIn />
+            <SignUp />
           </nav>
         ) : (
           <nav className="flex items-center space-x-10">

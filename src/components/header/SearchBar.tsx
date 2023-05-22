@@ -24,7 +24,7 @@ export const SearchBar = ({
       <input
         type="text"
         placeholder={placeholder}
-        className="w-full bg-transparent text-neutral-500 outline-none"
+        className="w-full border-none bg-transparent text-neutral-500 outline-none focus:outline-none"
       />
     </form>
   );
