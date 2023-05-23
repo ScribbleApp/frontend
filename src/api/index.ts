@@ -69,8 +69,8 @@ export const getCurrentUser = async () => {
   } else return { email: null };
 };
 
-export const getAllPosts = async () => {
-  const { data } = await api.get("/posts");
+export const getAllPosts = async (categories: string = "") => {
+  const { data } = await api.get("/posts?categories=" + categories);
   return data as TPost[];
 };
 
@@ -139,4 +139,28 @@ export const removeFromSavedPosts = async (id: number) => {
 export const getAllCategories = async () => {
   const { data } = await api.get("/posts/categories");
   return data as TCategory[];
+};
+
+export const getSubscriptions = async (id: number) => {
+  const { data } = await api.get("/subscriptions/" + id);
+  return data as {
+    id: number;
+    userId: number;
+    email: string;
+  }[];
+};
+
+export const subscribe = async (id: number) => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.post(
+    "/subscriptions",
+    { user_id: id },
+    {
+      headers: {
+        Authorization: `${token}`,
+      },
+    }
+  );
+
+  return data;
 };

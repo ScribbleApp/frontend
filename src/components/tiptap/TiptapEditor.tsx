@@ -15,10 +15,5 @@ export const TiptapEditor = ({ setContent }: TiptapEditorProps) => {
       }
     },
   });
-  return (
-    <EditorContent
-      editor={editor}
-      className="mb-10 border border-neutral-500 px-5 outline-none"
-    />
-  );
+  return <EditorContent editor={editor} className="mb-10  outline-none" />;
 };

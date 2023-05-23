@@ -8,13 +8,14 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import moment from "moment";
 import { addToSavedPosts } from "../../api";
+import { List } from "../generics/List";
 
 interface PostItemProps {
   post: TPost;
 }
 
 export const PostItem = ({
-  post: { title, excerpt, coverImage, id, user, createdAt },
+  post: { title, excerpt, coverImage, id, user, createdAt, categories },
 }: PostItemProps) => {
   const publishedDate = moment(createdAt).format("LL").toLocaleLowerCase();
   const queryClient = useQueryClient();
@@ -54,7 +55,23 @@ export const PostItem = ({
           </Link>
           <p>{excerpt}</p>
         </div>
-        <div></div>
+        <div>
+          {categories && (
+            <List
+              items={categories}
+              keyExtractor={({ name }) => name}
+              renderItem={({ name }) => (
+                <Link
+                  to={"/"}
+                  className="text-sm text-neutral-400 hover:text-neutral-500"
+                >
+                  {name}
+                </Link>
+              )}
+              className="m-0 flex list-none items-center space-x-5 p-0 prose-li:p-0"
+            />
+          )}
+        </div>
       </div>
       <div className="border-l border-neutral-500">
         <img

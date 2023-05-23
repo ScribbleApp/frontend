@@ -33,18 +33,52 @@ export const NewPost = ({}: NewPostProps) => {
   const [postContent, setPostContent] = useState<string>("");
   const [postCategories, setPostCategories] = useState<number[]>([]);
 
+  const [postCoverImage, setPostCoverImage] = useState<File>();
+
   const onSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
 
+    const submitData = new FormData();
+    submitData.append("post[image]", postCoverImage!);
+    console.log(submitData);
+
+    return;
     if (!isLoggedIn) return;
 
     const newPost = {
       title: postTitle,
       excerpt: postExcerpt,
       content: postContent,
+      categories: postCategories,
+      image: postCoverImage,
     };
 
+    console.log(newPost);
+
     mutate(newPost);
+  };
+
+  const onChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      let updCategories = [...postCategories];
+      updCategories.push(+e.target.value);
+      let unique = new Set(updCategories);
+      updCategories = Array.from(unique);
+
+      setPostCategories(updCategories);
+    } else {
+      let updCategories = [...postCategories];
+      updCategories = updCategories.filter((c) => c !== +e.target.value);
+      setPostCategories(updCategories);
+    }
+
+    console.log(postCategories);
+  };
+
+  const uploadImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setPostCoverImage(e.target.files[0]);
+    }
   };
 
   return (
@@ -68,22 +102,36 @@ export const NewPost = ({}: NewPostProps) => {
         <TiptapEditor setContent={setPostContent} />
 
         {data && (
-          <List
-            items={data}
-            keyExtractor={({ name }) => name}
-            renderItem={({ name, id }) => (
-              <div className="flex items-center space-x-1">
-                <input
-                  type="checkbox"
-                  value={id}
-                  onChange={(e) => console.log(e.target.value)}
-                />
-                <label htmlFor={name}>{name}</label>
-              </div>
-            )}
-            className="flex list-none items-center space-x-5 p-0"
-          />
+          <>
+            <h5>Choose categories for your post!</h5>
+            <List
+              items={data}
+              keyExtractor={({ name }) => name}
+              renderItem={({ name, id }) => (
+                <div className="flex items-center space-x-1">
+                  <input
+                    type="checkbox"
+                    value={id}
+                    onChange={onChangeCheckbox}
+                  />
+                  <label htmlFor={name}>{name}</label>
+                </div>
+              )}
+              className="flex list-none items-center space-x-5 p-0 prose-li:p-0"
+            />
+          </>
         )}
+
+        <div className="mb-10 flex flex-col space-y-4">
+          <label htmlFor="coverImage">Add an Image to Your Post!</label>
+          <input
+            type="file"
+            name="coverImage"
+            id="coverImage"
+            className="file:mr-5 file:cursor-pointer file:rounded-md file:border-dashed file:border-neutral-500 file:bg-transparent file:px-4 file:py-2 file:text-neutral-700"
+            onChange={uploadImage}
+          />
+        </div>
 
         <Button>{isLoading ? "..." : "create"}</Button>
       </form>

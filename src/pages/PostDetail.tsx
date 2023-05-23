@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import parse from "html-react-parser";
 import { useEffect } from "react";
 import moment from "moment";
+import { List } from "../components/generics/List";
 
 interface PostDetailProps {}
 
@@ -30,7 +31,23 @@ export const PostDetail = ({}: PostDetailProps) => {
     <section className="py-10">
       {data && (
         <article className="prose prose-a:no-underline">
-          <h1>{data.title}</h1>
+          <h1 className="mb-0">{data.title}</h1>
+          {data.categories && (
+            <List
+              items={data.categories}
+              keyExtractor={({ name }) => name}
+              renderItem={({ name }) => (
+                <Link
+                  to={"/"}
+                  className="text-sm text-neutral-400 hover:text-neutral-500"
+                >
+                  {name}
+                </Link>
+              )}
+              className="m-0 flex list-none items-center space-x-5 p-0 prose-li:p-0"
+            />
+          )}
+
           <div className="flex items-center space-x-2">
             <Link
               to={"/users/" + data.user.id}

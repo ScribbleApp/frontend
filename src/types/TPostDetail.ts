@@ -8,4 +8,5 @@ export type TPostDetail = {
   createdAt: string;
   coverImage?: string;
   user: TUser;
+  categories: { name: string }[];
 };

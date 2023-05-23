@@ -40,7 +40,7 @@ export const Dropdown = ({ icon, title }: DropdownProps) => {
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className="m-2 flex w-64 flex-col space-y-2 border border-neutral-500 bg-white p-2">
+        <DropdownMenu.Content className="relative z-50 m-2 flex w-64 flex-col space-y-2 border border-neutral-500 bg-white p-2">
           <DropdownMenu.Item asChild className="text-start outline-none">
             <Button
               intent={"secondary"}
