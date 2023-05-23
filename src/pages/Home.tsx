@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllPosts } from "../api";
 
 import { PostsList } from "../components/posts/PostsList";
+import { CategoryList } from "../components/categories/CategoryList";
 
 interface HomeProps {}
 
@@ -14,6 +15,9 @@ export const Home = ({}: HomeProps) => {
   if (isLoading) return <p>LOADING...</p>;
 
   return (
-    <section className="py-10">{data && <PostsList posts={data} />}</section>
+    <section className="py-10">
+      <CategoryList />
+      {data && <PostsList posts={data} />}
+    </section>
   );
 };
