@@ -3,12 +3,20 @@ import { getUserById } from "../api";
 import { Link, useParams } from "react-router-dom";
 import { List } from "../components/generics/List";
 
+import { UserContext } from "../context/userContext";
+import { useContext } from "react";
+
 import moment from "moment";
+import { NavLink } from "../components/ui/NavLink";
 
 interface UserDetailProps {}
 
 export const UserDetail = ({}: UserDetailProps) => {
+  const { userId } = useContext(UserContext);
+
   const { id } = useParams() as { id: string };
+
+  const isMyAccount = +id === userId;
 
   const { isLoading, data } = useQuery({
     queryKey: ["users", "id"],
@@ -28,7 +36,11 @@ export const UserDetail = ({}: UserDetailProps) => {
           <time>
             since {moment(data.createdAt).format("ll").toLocaleLowerCase()}
           </time>
-          <h3>Check out posts {data.email} wrote!!!</h3>
+          {isMyAccount ? (
+            <h3>All your posts</h3>
+          ) : (
+            <h3>Check out posts {data.email} wrote!!!</h3>
+          )}
           <List
             items={data.posts}
             keyExtractor={({ title }) => title}
@@ -36,6 +48,12 @@ export const UserDetail = ({}: UserDetailProps) => {
               <Link to={"/posts/" + post.id}>{post.title}</Link>
             )}
           />
+
+          {isMyAccount && (
+            <NavLink to={"/posts/new"} className="inline-block no-underline">
+              write new post!
+            </NavLink>
+          )}
         </section>
       )}
     </>

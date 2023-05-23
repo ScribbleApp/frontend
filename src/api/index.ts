@@ -16,6 +16,9 @@ export const signUp = async (payload: SignupFormData) => {
   return {
     data,
     token: headers.authorization,
+  } as {
+    data: { data: TUser };
+    token: string;
   };
 };
 
@@ -24,6 +27,9 @@ export const signIn = async (payload: SigninFormData) => {
   return {
     data,
     token: headers.authorization,
+  } as {
+    data: { data: TUser };
+    token: string;
   };
 };
 
@@ -76,4 +82,9 @@ export const createNewPost = async (payload: TPostPayload) => {
 export const getUserById = async (id: string) => {
   const { data } = await api.get("/users/" + id);
   return data as TUserDetail;
+};
+
+export const searchPosts = async (search: string) => {
+  const { data } = await api.get("/posts?search=" + search);
+  return data as TPost[];
 };

@@ -3,6 +3,8 @@ import { ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
 import { Button } from "./Button";
 
+import { useNavigate } from "react-router-dom";
+
 import { useMutation } from "@tanstack/react-query";
 import { signOut } from "../../api";
 
@@ -15,7 +17,8 @@ interface DropdownProps {
 }
 
 export const Dropdown = ({ icon, title }: DropdownProps) => {
-  const { updateIsLoggedIn } = useContext(UserContext);
+  const { updateIsLoggedIn, userId } = useContext(UserContext);
+  const navigate = useNavigate();
   const { isLoading, mutate } = useMutation({
     mutationFn: async () => await signOut(),
     onSuccess(data) {
@@ -37,8 +40,17 @@ export const Dropdown = ({ icon, title }: DropdownProps) => {
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className="m-2 w-64 border border-neutral-500 bg-white p-2">
-          <DropdownMenu.Item asChild className="outline-none">
+        <DropdownMenu.Content className="m-2 flex w-64 flex-col space-y-2 border border-neutral-500 bg-white p-2">
+          <DropdownMenu.Item asChild className="text-start outline-none">
+            <Button
+              intent={"secondary"}
+              padding={"none"}
+              onClick={() => navigate("/users/" + userId)}
+            >
+              my profile
+            </Button>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item asChild className="text-start outline-none ">
             <Button
               intent={"secondary"}
               padding={"none"}

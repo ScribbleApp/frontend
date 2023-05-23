@@ -3,7 +3,7 @@ import { getPostById } from "../api";
 import { Link, useParams } from "react-router-dom";
 
 import parse from "html-react-parser";
-
+import { useEffect } from "react";
 import moment from "moment";
 
 interface PostDetailProps {}
@@ -11,11 +11,19 @@ interface PostDetailProps {}
 export const PostDetail = ({}: PostDetailProps) => {
   const { id } = useParams() as { id: string };
 
-  const { isLoading, data } = useQuery({
+  const { isLoading, data, refetch } = useQuery({
     queryKey: ["posts", "id"],
     queryFn: async () => await getPostById(id),
+    // placeholderData: [],
+    // staleTime: Infinity,
+    // cacheTime: 0,
   });
 
+  useEffect(() => {
+    refetch();
+  }, [id]);
+
+  // refetch();
   if (isLoading) return <p>loading...</p>;
 
   return (
