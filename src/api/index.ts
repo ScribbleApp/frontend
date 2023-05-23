@@ -5,6 +5,7 @@ import type { TPost } from "../types/TPost";
 import type { TUser } from "../types/TUser";
 import type { TPostDetail } from "../types/TPostDetail";
 import type { TPostPayload } from "../types/TPostPayload";
+import { TUserDetail } from "../types/TUserDetail";
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
@@ -70,4 +71,9 @@ export const createNewPost = async (payload: TPostPayload) => {
   });
 
   return data as TPost;
+};
+
+export const getUserById = async (id: string) => {
+  const { data } = await api.get("/users/" + id);
+  return data as TUserDetail;
 };
