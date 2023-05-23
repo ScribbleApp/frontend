@@ -12,7 +12,8 @@ import { useContext } from "react";
 interface RootProps {}
 
 export const Root = ({}: RootProps) => {
-  const { updateIsLoggedIn } = useContext(UserContext);
+  const { updateIsLoggedIn, updateUserId } = useContext(UserContext);
+
   const { isLoading } = useQuery({
     queryKey: ["current_user"],
     queryFn: async () => await getCurrentUser(),
@@ -20,6 +21,7 @@ export const Root = ({}: RootProps) => {
       console.log(data);
       if (data.email) {
         updateIsLoggedIn(true);
+        updateUserId(data.id);
       }
     },
     refetchOnWindowFocus: false,

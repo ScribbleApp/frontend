@@ -16,13 +16,15 @@ import {
 interface SignUpProps {}
 
 export const SignUp = ({}: SignUpProps) => {
-  const { updateIsLoggedIn, updateToken } = useContext(UserContext);
+  const { updateIsLoggedIn, updateToken, updateUserId } =
+    useContext(UserContext);
 
   const { mutateAsync, data } = useMutation({
     mutationFn: async (payload: SignupFormData) => await signUp(payload),
     onSuccess: (data) => {
-      updateToken(data?.token);
+      updateToken(data.token);
       updateIsLoggedIn(true);
+      updateUserId(data.data.data.id);
       localStorage.setItem("jwt", data.token);
     },
   });
