@@ -36,7 +36,7 @@ export const Header = ({}: HeaderProps) => {
         ) : (
           <nav className="flex items-center space-x-10">
             <NavLink
-              to={"/"}
+              to={"/posts/new"}
               intent={"secondary"}
               padding={"none"}
               className="flex items-center space-x-2"

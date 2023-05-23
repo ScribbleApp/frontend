@@ -8,6 +8,7 @@ export default {
     require("@tailwindcss/forms")({
       strategy: "class",
     }),
+    require("@tailwindcss/typography"),
     // ...
   ],
 };

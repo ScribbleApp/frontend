@@ -1,8 +1,10 @@
 import axios from "axios";
-import { SignupFormData } from "../types/SignupFormData";
-import { SigninFormData } from "../types/SigninFormData";
-import { TPost } from "../types/TPost";
-import { TUser } from "../types/TUser";
+import type { SignupFormData } from "../types/SignupFormData";
+import type { SigninFormData } from "../types/SigninFormData";
+import type { TPost } from "../types/TPost";
+import type { TUser } from "../types/TUser";
+import type { TPostDetail } from "../types/TPostDetail";
+import type { TPostPayload } from "../types/TPostPayload";
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
@@ -46,10 +48,26 @@ export const getCurrentUser = async () => {
     });
 
     return data as TUser;
-  } else return {};
+  } else return { email: null };
 };
 
 export const getAllPosts = async () => {
   const { data } = await api.get("/posts");
   return data as TPost[];
+};
+
+export const getPostById = async (id: string) => {
+  const { data } = await api.get("/posts/" + id);
+  return data as TPostDetail;
+};
+
+export const createNewPost = async (payload: TPostPayload) => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.post("/posts", payload, {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+
+  return data as TPost;
 };
