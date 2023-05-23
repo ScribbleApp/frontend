@@ -18,7 +18,7 @@ export const TiptapEditor = ({ setContent }: TiptapEditorProps) => {
   return (
     <EditorContent
       editor={editor}
-      className="border border-neutral-500 px-5 outline-none"
+      className="mb-10 border border-neutral-500 px-5 outline-none"
     />
   );
 };

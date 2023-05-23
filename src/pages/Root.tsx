@@ -19,9 +19,13 @@ export const Root = ({}: RootProps) => {
     queryFn: async () => await getCurrentUser(),
     onSuccess(data) {
       console.log(data);
+
       if (data.email) {
         updateIsLoggedIn(true);
         updateUserId(data.id);
+      } else {
+        localStorage.clear();
+        updateIsLoggedIn(false);
       }
     },
     refetchOnWindowFocus: false,

@@ -6,6 +6,7 @@ import type { TUser } from "../types/TUser";
 import type { TPostDetail } from "../types/TPostDetail";
 import type { TPostPayload } from "../types/TPostPayload";
 import { TUserDetail } from "../types/TUserDetail";
+import { TCategory } from "../types/TCategory";
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
@@ -48,13 +49,23 @@ export const signOut = async () => {
 export const getCurrentUser = async () => {
   const token = localStorage.getItem("jwt");
   if (token) {
-    const { data } = await api.get("/current_user", {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
+    try {
+      const { data, status } = await api.get("/current_user", {
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+      console.log(status);
+      if (status === 401) {
+        localStorage.clear();
+        return { email: null };
+      }
 
-    return data as TUser;
+      return data as TUser;
+    } catch (e) {
+      console.log(e);
+      return { email: null };
+    }
   } else return { email: null };
 };
 
@@ -87,4 +98,45 @@ export const getUserById = async (id: string) => {
 export const searchPosts = async (search: string) => {
   const { data } = await api.get("/posts?search=" + search);
   return data as TPost[];
+};
+
+export const getSavedPosts = async () => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.get("/users/saved", {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+  return data as { id: number; post: TPost }[];
+};
+
+export const addToSavedPosts = async (id: number) => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.post(
+    "/users/saved",
+    { post_id: id },
+    {
+      headers: {
+        Authorization: `${token}`,
+      },
+    }
+  );
+
+  return data;
+};
+
+export const removeFromSavedPosts = async (id: number) => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.delete("/users/saved/" + id, {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+
+  return data;
+};
+
+export const getAllCategories = async () => {
+  const { data } = await api.get("/posts/categories");
+  return data as TCategory[];
 };

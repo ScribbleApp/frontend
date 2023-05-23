@@ -3,7 +3,11 @@ import { TPost } from "../../types/TPost";
 import { NavLink } from "../ui/NavLink";
 import { Link } from "react-router-dom";
 
+import { useMutation } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
+
 import moment from "moment";
+import { addToSavedPosts } from "../../api";
 
 interface PostItemProps {
   post: TPost;
@@ -13,6 +17,14 @@ export const PostItem = ({
   post: { title, excerpt, coverImage, id, user, createdAt },
 }: PostItemProps) => {
   const publishedDate = moment(createdAt).format("LL").toLocaleLowerCase();
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: async () => await addToSavedPosts(id),
+    onSuccess(data) {
+      console.log(data);
+      queryClient.invalidateQueries(["posts", "saved"]);
+    },
+  });
 
   return (
     <div className="flex justify-between border border-neutral-500 bg-neutral-50">
@@ -28,6 +40,13 @@ export const PostItem = ({
           <time className="text-sm font-medium text-neutral-500">
             {publishedDate}
           </time>
+          <span className="text-sm font-medium text-neutral-400">•</span>
+          <button
+            onClick={() => mutate()}
+            className="text-sm font-medium text-neutral-400 hover:text-neutral-500"
+          >
+            save for later
+          </button>
         </div>
         <div>
           <Link to={"/posts/" + id} className="text-xl font-medium">
