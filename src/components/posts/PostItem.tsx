@@ -73,11 +73,11 @@ export const PostItem = ({
           )}
         </div>
       </div>
-      <div className="border-l border-neutral-500">
+      <div className="w-44 min-w-[176px] border-l border-neutral-500">
         <img
           src={image_url}
           alt={title}
-          className=" block h-44 w-44 object-cover"
+          className=" block h-44 min-w-[176px]  object-cover"
         />
       </div>
     </div>

@@ -67,6 +67,9 @@ export const SignIn = ({}: SignInProps) => {
             placeholder="johndoe@g.com"
             {...register("email")}
           />
+          {errors.email && (
+            <p className="text-sm text-red-600">{errors.email.message}</p>
+          )}
         </div>
         <div className="mb-5 flex flex-col space-y-1">
           <label htmlFor="password" className="text-sm font-medium">
@@ -79,6 +82,9 @@ export const SignIn = ({}: SignInProps) => {
             placeholder="••••••"
             {...register("password")}
           />
+          {errors.password && (
+            <p className="text-sm text-red-600">{errors.password.message}</p>
+          )}
         </div>
         <div className="flex justify-end">
           <Button>{isLoading ? "..." : "sign in"}</Button>

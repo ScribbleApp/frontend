@@ -51,21 +51,6 @@ export const SignUp = ({}: SignUpProps) => {
     >
       <form onSubmit={handleSubmit(onSubmitHandler)}>
         <div className="mb-5 flex flex-col space-y-1">
-          <label htmlFor="name" className="text-sm font-medium">
-            name
-          </label>
-          <input
-            type="text"
-            className="form-input"
-            id="name"
-            placeholder="john doe"
-            {...register("name")}
-          />
-          {errors.name && (
-            <p className="text-sm text-red-600">{errors.name.message}</p>
-          )}
-        </div>
-        <div className="mb-5 flex flex-col space-y-1">
           <label htmlFor="email" className="text-sm font-medium">
             email
           </label>
