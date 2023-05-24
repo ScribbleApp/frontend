@@ -11,11 +11,13 @@ import { List } from "../components/generics/List";
 import { UserContext } from "../context/userContext";
 import { Button } from "../components/ui/Button";
 
+import { useNavigate } from "react-router-dom";
+
 interface NewPostProps {}
 
 export const NewPost = ({}: NewPostProps) => {
   const { isLoggedIn } = useContext(UserContext);
-
+  const navigate = useNavigate();
   const { data } = useQuery({
     queryKey: ["posts", "categories"],
     queryFn: async () => await getAllCategories(),
@@ -53,6 +55,8 @@ export const NewPost = ({}: NewPostProps) => {
 
       mutate(newPost);
     }
+
+    navigate("/");
   };
 
   const onChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {

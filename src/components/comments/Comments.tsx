@@ -6,9 +6,9 @@ import { UserContext } from "../../context/userContext";
 
 import { List } from "../generics/List";
 import { TComment } from "../../types/TComment";
-import { Link } from "react-router-dom";
 
-import moment from "moment";
+import { SignIn } from "../modals/SignIn";
+import { SignUp } from "../modals/SignUp";
 
 import { Comment } from "./Comment";
 
@@ -75,7 +75,7 @@ export const Comments = ({ id }: CommentsProps) => {
   return (
     <section className="max-w-prose">
       <h5 className="mb-5 text-xl">Comment section</h5>
-      {isLoggedIn && (
+      {isLoggedIn ? (
         <form
           className="relative mb-5"
           onSubmit={(e) => onSubmitHandler(e, null)}
@@ -92,9 +92,13 @@ export const Comments = ({ id }: CommentsProps) => {
 
           <Button className="absolute bottom-4 right-2">upload</Button>
         </form>
+      ) : (
+        <div>
+          <p>You need to have an account if you want to comment this post</p>
+        </div>
       )}
 
-      {data && orderedComments && (
+      {data && orderedComments ? (
         <List
           items={orderedComments}
           keyExtractor={({ parent }) => `${parent.body}|${parent.created_at}`}
@@ -125,6 +129,10 @@ export const Comments = ({ id }: CommentsProps) => {
             </div>
           )}
         />
+      ) : (
+        <div>
+          <p>Looks like this post has no comments. Be the first!</p>
+        </div>
       )}
     </section>
   );
