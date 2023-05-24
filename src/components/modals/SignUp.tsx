@@ -16,7 +16,7 @@ import {
 interface SignUpProps {}
 
 export const SignUp = ({}: SignUpProps) => {
-  const { updateIsLoggedIn, updateToken, updateUserId } =
+  const { updateIsLoggedIn, updateToken, updateUserId, updateIsAdmin } =
     useContext(UserContext);
 
   const { mutateAsync, data } = useMutation({
@@ -25,11 +25,12 @@ export const SignUp = ({}: SignUpProps) => {
       updateToken(data.token);
       updateIsLoggedIn(true);
       updateUserId(data.data.data.id);
+      updateIsAdmin(data.data.data.admin);
       localStorage.setItem("jwt", data.token);
     },
   });
 
-  console.log(data);
+  // console.log(data);
 
   const {
     register,

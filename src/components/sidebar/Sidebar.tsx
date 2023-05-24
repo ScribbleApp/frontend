@@ -21,7 +21,7 @@ export const Sidebar = ({}: SidebarProps) => {
     queryFn: async () => await getSavedPosts(),
     enabled: isLoggedIn,
     onSuccess(data) {
-      console.log(data);
+      // console.log(data);
     },
   });
 

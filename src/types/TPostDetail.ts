@@ -9,4 +9,5 @@ export type TPostDetail = {
   coverImage?: string;
   user: TUser;
   categories: { name: string }[];
+  image_url: string;
 };

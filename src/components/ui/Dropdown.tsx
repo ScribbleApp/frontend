@@ -17,7 +17,7 @@ interface DropdownProps {
 }
 
 export const Dropdown = ({ icon, title }: DropdownProps) => {
-  const { updateIsLoggedIn, userId } = useContext(UserContext);
+  const { updateIsLoggedIn, userId, isAdmin } = useContext(UserContext);
   const navigate = useNavigate();
   const { isLoading, mutate } = useMutation({
     mutationFn: async () => await signOut(),
@@ -50,6 +50,17 @@ export const Dropdown = ({ icon, title }: DropdownProps) => {
               my profile
             </Button>
           </DropdownMenu.Item>
+          {isAdmin && (
+            <DropdownMenu.Item asChild className="text-start outline-none">
+              <Button
+                intent={"secondary"}
+                padding={"none"}
+                onClick={() => navigate("/admin")}
+              >
+                admin panel
+              </Button>
+            </DropdownMenu.Item>
+          )}
           <DropdownMenu.Item asChild className="text-start outline-none ">
             <Button
               intent={"secondary"}

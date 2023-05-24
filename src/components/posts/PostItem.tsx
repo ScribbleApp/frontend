@@ -15,7 +15,7 @@ interface PostItemProps {
 }
 
 export const PostItem = ({
-  post: { title, excerpt, coverImage, id, user, createdAt, categories },
+  post: { title, excerpt, image_url, id, user, createdAt, categories },
 }: PostItemProps) => {
   const publishedDate = moment(createdAt).format("LL").toLocaleLowerCase();
   const queryClient = useQueryClient();
@@ -75,7 +75,7 @@ export const PostItem = ({
       </div>
       <div className="border-l border-neutral-500">
         <img
-          src={coverImage}
+          src={image_url}
           alt={title}
           className=" block h-44 w-44 object-cover"
         />

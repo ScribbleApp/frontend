@@ -38,24 +38,21 @@ export const NewPost = ({}: NewPostProps) => {
   const onSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
 
-    const submitData = new FormData();
-    submitData.append("post[image]", postCoverImage!);
-    console.log(submitData);
-
-    return;
     if (!isLoggedIn) return;
 
-    const newPost = {
-      title: postTitle,
-      excerpt: postExcerpt,
-      content: postContent,
-      categories: postCategories,
-      image: postCoverImage,
-    };
+    if (postCoverImage) {
+      const newPost = {
+        title: postTitle,
+        excerpt: postExcerpt,
+        content: postContent,
+        categories: postCategories,
+        image: postCoverImage,
+      };
 
-    console.log(newPost);
+      console.log(newPost);
 
-    mutate(newPost);
+      mutate(newPost);
+    }
   };
 
   const onChangeCheckbox = (e: ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +91,7 @@ export const NewPost = ({}: NewPostProps) => {
         />
         <input
           type="text"
-          placeholder="add except to your title!"
+          placeholder="add except to your post!"
           className="mb-5 w-full border-b border-neutral-500 p-5 text-center text-xl font-medium outline-none"
           value={postExcerpt}
           onChange={(e) => setPostExcerpt(e.target.value)}
