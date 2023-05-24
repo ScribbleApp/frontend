@@ -20,8 +20,8 @@ export const PopUp = ({
     <Dialog.Root>
       <Dialog.Trigger asChild>{button}</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-neutral-900/50" />
-        <Dialog.Content className="fixed left-1/2 top-1/4 w-1/2 max-w-sm -translate-x-1/2 bg-white p-4">
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-neutral-900/50" />
+        <Dialog.Content className="fixed  left-1/2 top-1/4 z-50 w-1/2 max-w-sm -translate-x-1/2 bg-white p-4">
           <Dialog.Title className="mb-5 text-xl font-medium">
             {popUpTitle}
           </Dialog.Title>

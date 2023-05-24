@@ -12,7 +12,8 @@ import { useContext } from "react";
 interface RootProps {}
 
 export const Root = ({}: RootProps) => {
-  const { updateIsLoggedIn, updateUserId } = useContext(UserContext);
+  const { updateIsLoggedIn, updateUserId, updateIsAdmin } =
+    useContext(UserContext);
 
   const { isLoading } = useQuery({
     queryKey: ["current_user"],
@@ -23,6 +24,7 @@ export const Root = ({}: RootProps) => {
       if (data.email) {
         updateIsLoggedIn(true);
         updateUserId(data.id);
+        updateIsAdmin(data.admin);
       } else {
         localStorage.clear();
         updateIsLoggedIn(false);

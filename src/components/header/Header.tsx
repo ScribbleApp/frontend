@@ -17,7 +17,7 @@ export const Header = ({}: HeaderProps) => {
   const { isLoggedIn } = useContext(UserContext);
 
   return (
-    <header className="sticky left-0 top-0 border-b border-neutral-500 bg-white">
+    <header className="sticky left-0 top-0 z-30 border-b border-neutral-500 bg-white">
       <div className="flex h-16 items-center justify-between px-5">
         <div className="flex items-center space-x-10">
           <Link to={"/"} className="text-xl font-extrabold">

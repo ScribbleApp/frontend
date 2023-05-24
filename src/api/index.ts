@@ -7,6 +7,8 @@ import type { TPostDetail } from "../types/TPostDetail";
 import type { TPostPayload } from "../types/TPostPayload";
 import { TUserDetail } from "../types/TUserDetail";
 import { TCategory } from "../types/TCategory";
+import { TComment } from "../types/TComment";
+import { PlayCircleIcon } from "lucide-react";
 
 const api = axios.create({
   baseURL: "http://localhost:3000",
@@ -69,8 +71,13 @@ export const getCurrentUser = async () => {
   } else return { email: null };
 };
 
-export const getAllPosts = async () => {
-  const { data } = await api.get("/posts");
+export const getAllUsers = async () => {
+  const { data } = await api.get("/users");
+  return data as TUser[];
+};
+
+export const getAllPosts = async (categories: string = "") => {
+  const { data } = await api.get("/posts?categories=" + categories);
   return data as TPost[];
 };
 
@@ -84,10 +91,23 @@ export const createNewPost = async (payload: TPostPayload) => {
   const { data } = await api.post("/posts", payload, {
     headers: {
       Authorization: `${token}`,
+      "Content-Type": "multipart/form-data",
     },
   });
 
   return data as TPost;
+};
+
+export const deletePost = async (id: number) => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.delete("/posts/" + id, {
+    headers: {
+      Authorization: `${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return data;
 };
 
 export const getUserById = async (id: string) => {
@@ -139,4 +159,78 @@ export const removeFromSavedPosts = async (id: number) => {
 export const getAllCategories = async () => {
   const { data } = await api.get("/posts/categories");
   return data as TCategory[];
+};
+
+export const deleteCategory = async (id: number) => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.delete("/posts/categories/" + id, {
+    headers: {
+      Authorization: `${token}`,
+    },
+  });
+  return data;
+};
+
+export const createCategory = async (name: string) => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.post(
+    "/posts/categories",
+    { name },
+    {
+      headers: {
+        Authorization: `${token}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const getSubscriptions = async (id: number) => {
+  const { data } = await api.get("/subscriptions/" + id);
+  return data as {
+    id: number;
+    userId: number;
+    email: string;
+  }[];
+};
+
+export const subscribe = async (id: number) => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.post(
+    "/subscriptions",
+    { user_id: id },
+    {
+      headers: {
+        Authorization: `${token}`,
+      },
+    }
+  );
+
+  return data;
+};
+
+export const getCommentsByPostId = async (id: number) => {
+  const { data } = await api.get("/posts/" + id + "/comments");
+  return data as TComment[];
+};
+
+export const uploadComment = async (
+  id: number,
+  payload: {
+    body: string;
+    parent_id: number | null;
+  }
+) => {
+  const token = localStorage.getItem("jwt");
+  const { data } = await api.post(
+    "/posts/" + id + "/comments",
+    { comment: payload },
+    {
+      headers: {
+        Authorization: `${token}`,
+      },
+    }
+  );
+
+  return data;
 };

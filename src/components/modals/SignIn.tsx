@@ -17,21 +17,22 @@ import { PopUp } from "../ui/PopUp";
 interface SignInProps {}
 
 export const SignIn = ({}: SignInProps) => {
-  const { updateIsLoggedIn, updateToken, updateUserId } =
+  const { updateIsLoggedIn, updateToken, updateUserId, updateIsAdmin } =
     useContext(UserContext);
 
   const { mutateAsync, data, isLoading } = useMutation({
     mutationFn: async (payload: SigninFormData) => await signIn(payload),
     onSuccess: (data) => {
-      console.log(data);
+      // console.log(data);
       updateIsLoggedIn(true);
       updateUserId(data.data.data.id);
       updateToken(data.token);
+      updateIsAdmin(data.data.data.admin);
       localStorage.setItem("jwt", data.token);
     },
   });
 
-  console.log("signin:", data);
+  // console.log("signin:", data);
 
   const {
     register,
